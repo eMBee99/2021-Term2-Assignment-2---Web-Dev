@@ -111,37 +111,58 @@ function keydown(event) {
 	}
 }
 
-
-
-function spawnBomb() {
-	var x;
-	// var bombArray = new Array(9);
-	var bomb = document.querySelector('.bomb');
-	bomb[x] = new Array;
-	
-	// if (bombSpawn) {
-		// for (x = 0; x<9; x ++){
-			var randomNumber = Math.random() * (window.innerWidth - 30) + 15;
-			bomb.style.display = 'block';
-			console.log(bomb.style.display);
-			console.log(bomb.style.left);
-			bomb.style.left = randomNumber + 'px';
-			console.log(randomNumber);
-			// console.log(x)
-			// setInterval(1000);
+// class bomb {
+// 		constructor(){
 			
-		// }
+// 				this.name;
+			
+// 		}
+// 	}
 	
+var x =0;
+function spawnBomb() {
 	
-	// }
-}
+	// var bombArray = new Array(9);
+	var b = document.querySelector('.bomb');
+	var bombArray = [];
+	
+	// bombArray = new bomb;
+ 	// while (bombSpawn){
+
+			var randomNumber = Math.random() * (window.innerWidth - 30) + 15;
+			console.log(x);
+			
+			bombArray[x] = b;
+						// console.log(bomb)
+						// console.log(bombArray)
+						// console.log(bombArray[x])
+						// console.log(bombArray[x].name)
+			// bombArray[x].push(b);
+
+			bombArray[x].style.display = 'block';
+			// console.log(bombs[x].style.display);
+			// console.log(bombs[x].style.left);
+			bombArray[x].style.left = randomNumber + 'px';
+			// console.log(randomNumber);
+			console.log(bombArray[x])
+			
+			document.body.appendChild(b);
+			console.log()
+		x++
+		setInterval(1000);
+		console.log(x);
+	}
+	
+// }
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
 	bombSpawn = true;
-	setInterval(spawnBomb, 1000)
+	setInterval(spawnBomb, 1000);
 	setInterval(bombDrop, 100);
 }
+
+
 
 function myLoadFunction() {
 	timeout = setInterval(move, 10);

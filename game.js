@@ -3,7 +3,7 @@ var downPressed = false;
 var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
-var bombSpawn = false;
+
 
 
 function keyup(event) {
@@ -28,17 +28,6 @@ function keyup(event) {
 	player.className = 'character stand ' + lastPressed;
 }
 
-function bombDrop() {
-	var bomb = document.querySelector('.bomb');
-	if (bombSpawn) {
-		var bombTop = bombTop+1;
-
-		bomb.style.top = bombTop + 'px';
-	}
-		
-		
-	
-}
 
 function move() {
 	var player = document.getElementById('player');
@@ -111,55 +100,37 @@ function keydown(event) {
 	}
 }
 
-// class bomb {
-// 		constructor(){
-			
-// 				this.name;
-			
-// 		}
-// 	}
-	
-var x =0;
+
+
+
 function spawnBomb() {
-	
-	// var bombArray = new Array(9);
-	var b = document.querySelector('.bomb');
-	var bombArray = [];
-	
-	// bombArray = new bomb;
- 	// while (bombSpawn){
 
-			var randomNumber = Math.random() * (window.innerWidth - 30) + 15;
-			console.log(x);
-			
-			bombArray[x] = b;
-						// console.log(bomb)
-						// console.log(bombArray)
-						// console.log(bombArray[x])
-						// console.log(bombArray[x].name)
-			// bombArray[x].push(b);
-
-			bombArray[x].style.display = 'block';
-			// console.log(bombs[x].style.display);
-			// console.log(bombs[x].style.left);
-			bombArray[x].style.left = randomNumber + 'px';
-			// console.log(randomNumber);
-			console.log(bombArray[x])
-			
-			document.body.appendChild(b);
-			console.log()
-		x++
-		setInterval(1000);
-		console.log(x);
-	}
+	var x =0;
+	var bombArray = []
+	const bomb = document.createElement('div');
+	bomb.className = 'bomb';
+	bombArray[x] = bomb
 	
-// }
+	bombArray[x].style.display = 'block';
+	randomNumber = Math.random() * (window.innerWidth - 60) + 30;
+	bombArray[x].style.left = randomNumber + 'px';
+	
+
+	document.body.appendChild(bomb);
+		x++;
+		
+}
+
+function dropBomb(){
+	
+}
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
-	bombSpawn = true;
 	setInterval(spawnBomb, 1000);
-	setInterval(bombDrop, 100);
+	
+	
+	
 }
 
 

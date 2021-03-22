@@ -99,15 +99,11 @@ function keydown(event) {
 	}
 }
 
-
 var x =0;
 
 function spawnBombs() {
 
-
 	var bombArray = []
-	// for (x = 0;x<10;x++){
-
 	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
@@ -117,39 +113,46 @@ function spawnBombs() {
 	
 	bombArray[x].style.display = 'block';
 	randomNumber = Math.random() * (window.innerWidth - 60) + 30;
+	randomSpeed = Math.random() * 10;
 	bombArray[x].style.left = randomNumber + 'px';
- 
-		setInterval(function() {
-			console.log(x);
-			
-		
 
-	var bombTop = bombArray[x].offsetTop;
-console.log(bombTop)
-	bombTop = bombTop + 10 + 'px';
-console.log(bombTop)
-	bombArray[x].style.top = bombTop  ;
-	console.log(bombArray[x].style.top)
+	explosionY = (Math.random() * ((innerHeight - 30)-(innerHeight/5 * 4)) + (innerHeight/5 * 4));
 	
-		
 
-	
-	
-		
+	setInterval(function() {
+
+		var bombTop = bombArray[x].offsetTop;
+		bombTop = bombTop + 2 + 'px';
+		bombArray[x].style.top = bombTop  ;
 		document.body.appendChild(bomb);
-		// }
-	
+		
+		var bombTop = bombArray[x].offsetTop;
+		console.log(explosionY)
+		console.log(bombArray[x].offsetTop)
+		if (bombArray[x].offsetTop >= explosionY) {
+			
+			bombArray[x].classList.remove('bomb')
+			bombArray[x].className = 'explosion'
+			bombArray[x].style.display = 'block';
+			
+			bomb.removeChild;
+		}
 
-}, 1000)
-// setInterval(x++, 3000);
-// 	console.log(x)
+	}, 10)
+
+
 }
 
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
+	// spawnBombs()
+	setInterval(spawnBombs, 1000);	
+	
 
-	setInterval(spawnBombs, 3000);	
+	// console.log(explosionY)
+
+	console.log(innerHeight)
 	
 }
 

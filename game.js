@@ -100,38 +100,36 @@ function keydown(event) {
 }
 
 
-var x 
+var x =0;
 
 function spawnBombs() {
 
 
-	var bombArray 
+	var bombArray = []
 	// for (x = 0;x<10;x++){
 
 	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
-	bombArray = bomb
+	bombArray[x] = bomb
 
-	// bombArray.push(bomb);
+	bombArray.push(bomb);
 	
-	bombArray.style.display = 'block';
+	bombArray[x].style.display = 'block';
 	randomNumber = Math.random() * (window.innerWidth - 60) + 30;
-	bombArray.style.left = randomNumber + 'px';
+	bombArray[x].style.left = randomNumber + 'px';
  
 		setInterval(function() {
-			console.log('hello');
+			console.log(x);
 			
 		
 
-	
-
-	var bombTop = bombArray.offsetTop;
+	var bombTop = bombArray[x].offsetTop;
 console.log(bombTop)
 	bombTop = bombTop + 10 + 'px';
 console.log(bombTop)
-	bombArray.style.top = bombTop  ;
-	console.log(bombArray.style.top)
+	bombArray[x].style.top = bombTop  ;
+	console.log(bombArray[x].style.top)
 	
 		
 
@@ -143,15 +141,15 @@ console.log(bombTop)
 	
 
 }, 1000)
-
-	
+// setInterval(x++, 3000);
+// 	console.log(x)
 }
 
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
 
-	spawnBombs();	
+	setInterval(spawnBombs, 3000);	
 	
 }
 

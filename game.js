@@ -135,7 +135,7 @@ function spawnBombs() {
 			bombArray[x].className = 'explosion'
 			bombArray[x].style.display = 'block';
 			
-			bomb.removeChild;
+			//bomb still falling in background - eventually will overload the cpu 
 		}
 
 	}, 10)
@@ -143,16 +143,20 @@ function spawnBombs() {
 
 }
 
+function life() {
+	var element = document.elementFromPoint(player.offsetLeft, newTop);
+	
+		if (element.classList.contains('explosion') == false) {
+
+			
+		}
+}
+
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
-	// spawnBombs()
-	setInterval(spawnBombs, 1000);	
 	
-
-	// console.log(explosionY)
-
-	console.log(innerHeight)
+	setInterval(spawnBombs, 1000);	
 	
 }
 

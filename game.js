@@ -28,7 +28,6 @@ function keyup(event) {
 	player.className = 'character stand ' + lastPressed;
 }
 
-
 function move() {
 	var player = document.getElementById('player');
 	var playerLeft = player.offsetLeft;
@@ -101,35 +100,58 @@ function keydown(event) {
 }
 
 
+var x 
+
+function spawnBombs() {
 
 
-function spawnBomb() {
+	var bombArray 
+	// for (x = 0;x<10;x++){
 
-	var x =0;
-	var bombArray = []
+	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
-	bombArray[x] = bomb
+	bombArray = bomb
+
+	// bombArray.push(bomb);
 	
-	bombArray[x].style.display = 'block';
+	bombArray.style.display = 'block';
 	randomNumber = Math.random() * (window.innerWidth - 60) + 30;
-	bombArray[x].style.left = randomNumber + 'px';
-	
-
-	document.body.appendChild(bomb);
-		x++;
+	bombArray.style.left = randomNumber + 'px';
+ 
+		setInterval(function() {
+			console.log('hello');
+			
 		
-}
 
-function dropBomb(){
+	
+
+	var bombTop = bombArray.offsetTop;
+console.log(bombTop)
+	bombTop = bombTop + 10 + 'px';
+console.log(bombTop)
+	bombArray.style.top = bombTop  ;
+	console.log(bombArray.style.top)
+	
+		
+
+	
+	
+		
+		document.body.appendChild(bomb);
+		// }
+	
+
+}, 1000)
+
 	
 }
+
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
-	setInterval(spawnBomb, 1000);
-	
-	
+
+	spawnBombs();	
 	
 }
 

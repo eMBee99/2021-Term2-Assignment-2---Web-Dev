@@ -3,7 +3,7 @@ var downPressed = false;
 var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
-
+var boom = false;
 
 
 function keyup(event) {
@@ -99,64 +99,85 @@ function keydown(event) {
 	}
 }
 
-var x =0;
+
 
 function spawnBombs() {
-
-	var bombArray = []
+var x =0;
+	
 	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
-	bombArray[x] = bomb
-
-	bombArray.push(bomb);
 	
-	bombArray[x].style.display = 'block';
+
+	// bombArray.push(bomb);
+	
+	bomb.style.display = 'block';
 	randomNumber = Math.random() * (window.innerWidth - 60) + 30;
-	randomSpeed = Math.random() * 10;
-	bombArray[x].style.left = randomNumber + 'px';
+	randomSpeed = Math.random() * 10 + 1;
+	bomb.style.left = randomNumber + 'px';
 
 	explosionY = (Math.random() * ((innerHeight - 30)-(innerHeight/5 * 4)) + (innerHeight/5 * 4));
 	
+	console.log(x)
+	console.log(bomb)
 
-	setInterval(function() {
-
-		var bombTop = bombArray[x].offsetTop;
-		bombTop = bombTop + 2 + 'px';
-		bombArray[x].style.top = bombTop  ;
-		document.body.appendChild(bomb);
+		setInterval(function() {
 		
-		var bombTop = bombArray[x].offsetTop;
-		console.log(explosionY)
-		console.log(bombArray[x].offsetTop)
-		if (bombArray[x].offsetTop >= explosionY) {
+			var bombTop = bomb.offsetTop;
+			bombTop = bombTop + 2 + 'px';
+			bomb.style.top = bombTop ;
+			document.body.appendChild(bomb);
+		
+		
+
+// console.log(explosionY)
+// console.log(bomb.offsetTop)
+
+
+			if (bomb.offsetTop >= explosionY) {
 			
-			bombArray[x].classList.remove('bomb')
-			bombArray[x].className = 'explosion'
-			bombArray[x].style.display = 'block';
+				bomb.classList.remove('bomb')
+				bomb.className = 'explosion'
+				bomb.style.display = 'block';
+				
+				//bomb still falling in background - eventually will overload the cpu 
 			
-			//bomb still falling in background - eventually will overload the cpu 
-		}
+			
+			var explosionCollision = {x:bomb.offsetLeft, y:bomb.offsetTop, width:128, height:80}
+			var playerCollsion = {x:player.offsetLeft, y:player.offsetTop, width:32, height:64}
 
-	}, 10)
+				if (explosionCollision.x < playerCollsion.x + playerCollsion.width &&
+					explosionCollision.x + explosionCollision.width > playerCollsion.x &&
+					explosionCollision.y < playerCollsion.y + playerCollsion.height &&
+					explosionCollision.y + explosionCollision.height > playerCollsion.y) {
+
+						console.log('boom')
+						
+						boom = true;
+						life();
+				}
 
 
+			}
+
+		}, 10)
+
+// x++;	
 }
 
 function life() {
-	var element = document.elementFromPoint(player.offsetLeft, newTop);
-	
-		if (element.classList.contains('explosion') == false) {
-
-			
-		}
+	if (boom=true) {
+		console.log('game over')
+		boom=false;
+		console.log(boom)
+	}
 }
 
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
-	
-	setInterval(spawnBombs, 1000);	
+	spawnBombs()
+	// setInterval(spawnBombs, 1000);	
 	
 }
 

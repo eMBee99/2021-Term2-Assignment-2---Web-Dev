@@ -3,7 +3,7 @@ var downPressed = false;
 var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
-var boom = false;
+
 
 
 function keyup(event) {
@@ -100,6 +100,7 @@ function keydown(event) {
 }
 
 
+var i = -1
 
 function spawnBombs() {
 var x =0;
@@ -118,8 +119,8 @@ var x =0;
 
 	explosionY = (Math.random() * ((innerHeight - 30)-(innerHeight/5 * 4)) + (innerHeight/5 * 4));
 	
-	console.log(x)
-	console.log(bomb)
+	// console.log(x)
+	// console.log(bomb)
 
 		setInterval(function() {
 		
@@ -128,11 +129,6 @@ var x =0;
 			bomb.style.top = bombTop ;
 			document.body.appendChild(bomb);
 		
-		
-
-// console.log(explosionY)
-// console.log(bomb.offsetTop)
-
 
 			if (bomb.offsetTop >= explosionY) {
 			
@@ -140,7 +136,7 @@ var x =0;
 				bomb.className = 'explosion'
 				bomb.style.display = 'block';
 				
-				//bomb still falling in background - eventually will overload the cpu 
+				//bomb still falling in background - eventually will lag
 			
 			
 			var explosionCollision = {x:bomb.offsetLeft, y:bomb.offsetTop, width:128, height:80}
@@ -150,11 +146,17 @@ var x =0;
 					explosionCollision.x + explosionCollision.width > playerCollsion.x &&
 					explosionCollision.y < playerCollsion.y + playerCollsion.height &&
 					explosionCollision.y + explosionCollision.height > playerCollsion.y) {
-
-						console.log('boom')
 						
-						boom = true;
+						
+
+						setInterval(function() {
+
 						life();
+
+						}, 1000);
+						
+						bomb.classList.remove('explosion');
+						i++
 				}
 
 
@@ -162,22 +164,52 @@ var x =0;
 
 		}, 10)
 
-// x++;	
+
 }
 
 function life() {
-	if (boom=true) {
-		console.log('game over')
-		boom=false;
-		console.log(boom)
+	
+	
+	var healthList = document.getElementsByTagName("li")[i]
+
+	console.log(healthList)
+			
+			healthList.style.display = 'none';
+	
+		 
+		console.log(i);
+
+
+	if (i == 2 ){
+		document.querySelector('.gameOver').style.display = 'block';
+
 	}
+
+		
+		// if (player.classList.contains('character walk up' | 'character stand up' )) {
+		// 	player.className = 'character hit up';
+		// }
+		// if (player.classList.contains('character walk down' | 'character stand down' )) {
+		// 	player.className = 'character hit down';
+		// }
+		// if (player.classList.contains('character walk left' | 'character stand left' )) {
+		// 	player.className = 'character hit left';
+		// }
+		// if (player.classList.contains('character walk right' | 'character stand rightleft' )) {
+		// 	player.className = 'character hit right';
+		// }
+		
+		
+		
+	
+	
 }
 
 
 function clickStart() {
 	document.querySelector('.start').style.display = 'none';
-	spawnBombs()
-	// setInterval(spawnBombs, 1000);	
+	// spawnBombs()
+	setInterval(spawnBombs, 1000);	
 	
 }
 

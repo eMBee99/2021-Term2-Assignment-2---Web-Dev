@@ -6,6 +6,7 @@ var lastPressed = false;
 
 
 
+
 function keyup(event) {
 	var player = document.getElementById('player');
 	if (event.key == 'ArrowLeft') {
@@ -99,7 +100,8 @@ function keydown(event) {
 	}
 }
 
-
+var bombFall;
+var hitCheck;
 var i = -1
 
 function spawnBombs() {
@@ -122,7 +124,7 @@ var x =0;
 	// console.log(x)
 	// console.log(bomb)
 
-		setInterval(function() {
+		bombFall = setInterval(function() {
 		
 			var bombTop = bomb.offsetTop;
 			bombTop = bombTop + 2 + 'px';
@@ -147,9 +149,9 @@ var x =0;
 					explosionCollision.y < playerCollsion.y + playerCollsion.height &&
 					explosionCollision.y + explosionCollision.height > playerCollsion.y) {
 						
-						
+						player.className = 'character hit down';
 
-						setInterval(function() {
+						hitCheck = setInterval(function() {
 
 						life();
 
@@ -157,6 +159,7 @@ var x =0;
 						
 						bomb.classList.remove('explosion');
 						i++
+						bomb.innerHTML = "";
 				}
 
 
@@ -167,22 +170,24 @@ var x =0;
 
 }
 
+var healthList;
+
 function life() {
 	
-	
-	var healthList = document.getElementsByTagName("li")[i]
+	healthList = document.getElementsByTagName("li")[i]
 
 	console.log(healthList)
 			
-			healthList.style.display = 'none';
+	healthList.style.display = 'none';
 	
-		 
-		console.log(i);
-
+	console.log(i);
 
 	if (i == 2 ){
-		document.querySelector('.gameOver').style.display = 'block';
-
+		gameOver();
+		
+		clearInterval(bombTimer)
+		clearInterval(bombFall)
+		clearInterval(hitCheck)
 	}
 
 		
@@ -205,14 +210,32 @@ function life() {
 	
 }
 
-
+var bombTimer
 function clickStart() {
+	i = -1;
+	
+
 	document.querySelector('.start').style.display = 'none';
-	// spawnBombs()
-	setInterval(spawnBombs, 1000);	
+	document.querySelector('.gameOver').style.display = 'none';
+	
+	bombTimer = setInterval(spawnBombs, 1000);	
 	
 }
 
+function gameOver() {
+	i = -1;
+	
+
+	console.log(bombTimer)
+
+	player.className = 'character dead';
+
+	document.querySelector('.gameOver').style.display = 'block';
+
+	
+	
+
+}
 
 
 function myLoadFunction() {
@@ -220,6 +243,7 @@ function myLoadFunction() {
 	document.addEventListener('keydown', keydown);
 	document.addEventListener('keyup', keyup);
 	document.querySelector('.start').addEventListener('click', clickStart);
+	document.querySelector('.gameOver').addEventListener('click', clickStart);
 }
 
 

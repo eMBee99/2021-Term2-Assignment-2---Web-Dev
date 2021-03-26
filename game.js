@@ -110,7 +110,7 @@ function keydown(event) {
 var scoreCounter = 0;
 var bombFall;
 var hitCheck;
-var i = -1
+var i = 0;
 
 function spawnBombs() {
 var x =0;
@@ -136,8 +136,20 @@ var x =0;
 			bombTop = bombTop + 2 + 'px';
 			bomb.style.top = bombTop ;
 			document.body.appendChild(bomb);
+
+			if (i == 3) {
+
+				bomb.parentNode.removeChild(bomb);
+				bomb.classList.remove('bomb');
+				bomb.classList.remove('explosion');
+				clearInterval(bombTimer)
+				clearInterval(bombFall)
+				clearInterval(hitCheck)
+			}
+
 		
-			if (bomb.offsetTop >= explosionY) {
+			
+		if (bomb.offsetTop >= explosionY) {
 			
 				bomb.classList.remove('bomb')
 				bomb.className = 'explosion'
@@ -156,11 +168,11 @@ var x =0;
 						
 						player.className = 'character hit down';
 
-						hitCheck = setInterval(function() {
+						// hitCheck = setInterval(function() {
 
 						life();
 
-						}, 1000);
+						// }, 1000);
 						
 						bomb.classList.remove('explosion');
 						i++
@@ -184,7 +196,7 @@ var x =0;
 var healthList;
 
 function life() {
-	
+	console.log(i)
 	healthList = document.getElementsByTagName("li")[i]
 	
 	healthList.style.display = 'none';
@@ -195,7 +207,7 @@ function life() {
 		
 		clearInterval(bombTimer)
 		clearInterval(bombFall)
-		clearInterval(hitCheck)
+		// clearInterval(hitCheck)
 	}
 
 		
@@ -222,6 +234,7 @@ function resetHealth() {
 		healthList.style.display = 'block';
 	}
 	player.className = 'character stand down';
+	i = 0;
 }
 
 var bombTimer
@@ -235,23 +248,24 @@ function clickStart() {
 }
 
 function gameOver() {
-	
-
+	clearInterval(bombTimer)
+	clearInterval(bombFall)
+	// clearInterval(hitCheck)
 
 	player.className = 'character dead';
 
 	document.querySelector('.gameOver').style.display = 'block';
 
-	// var roundScore = localStorage.setItem(scoreCounter)
+	localStorage.setItem('score', scoreCounter);
+	var roundScore = localStorage.getItem('score');
 
-	// var scoreBoard = document.getElementById('scoreBoard');
-	// var scores = document.createElement("li")
+	var scoreBoard = document.getElementById('scoreBoard');
+	var scores = document.createElement("li")
 	
-	// scoreBoard.appendChild(scores);
-	// scores.innerHTML(roundScore);
-	
-	
+	scoreBoard.appendChild(scores);
+	var newScore = document.createTextNode(roundScore);
 
+	scores.appendChild(newScore);
 
 	scoreCounter =0;
 }

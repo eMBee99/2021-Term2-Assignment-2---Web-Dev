@@ -509,6 +509,11 @@ aside ul {list-style-type: none; margin-left: 0; padding-left: 0; margin-bottom:
 	box-shadow: 4px 4px 4px #000;
 }
 
+#scoreBoard {
+	display: grid;
+	grid-template-columns: 50%, 50%;
+}
+
 .explosion {
 	width: 128px;
 	height: 160px;

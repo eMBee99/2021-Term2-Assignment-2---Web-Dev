@@ -256,15 +256,21 @@ function gameOver() {
 
 	document.querySelector('.gameOver').style.display = 'block';
 
+	var name = window.prompt("What is your name?");
+
+	localStorage.setItem('name', name);
 	localStorage.setItem('score', scoreCounter);
 	var roundScore = localStorage.getItem('score');
+	var roundName = localStorage.getItem('name');
 
 	var scoreBoard = document.getElementById('scoreBoard');
 	var scores = document.createElement("li")
 	
 	scoreBoard.appendChild(scores);
 	var newScore = document.createTextNode(roundScore);
+	var newName = document.createTextNode(roundName + "  ");
 
+	scores.appendChild(newName);
 	scores.appendChild(newScore);
 
 	scoreCounter =0;

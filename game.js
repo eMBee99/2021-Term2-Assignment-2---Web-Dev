@@ -115,6 +115,8 @@ var i = 0;
 function spawnBombs() {
 var x =0;
 	var player = document.getElementById('player');
+
+	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
 	
@@ -125,16 +127,16 @@ var x =0;
 	if ( devBomb == true){
 		bomb.style.left = player.style.left
 	}else{
-
 	bomb.style.left = randomNumber + 'px';
 	}
+
 	explosionY = (Math.random() * ((innerHeight - 30)-(innerHeight/5 * 4)) + (innerHeight/5 * 4));
 	
 		bombFall = setInterval(function() {
 		
 			var bombTop = bomb.offsetTop;
-			bombTop = bombTop + 2 + 'px';
-			bomb.style.top = bombTop ;
+			bombTop = bombTop + randomSpeed + 'px';
+			bomb.style.top = bombTop  ;
 			document.body.appendChild(bomb);
 
 			if (i == 3) {
@@ -144,7 +146,7 @@ var x =0;
 				bomb.classList.remove('explosion');
 				clearInterval(bombTimer)
 				clearInterval(bombFall)
-				clearInterval(hitCheck)
+				
 			}
 
 		
@@ -155,7 +157,7 @@ var x =0;
 				bomb.className = 'explosion'
 				bomb.style.display = 'block';
 				
-				//bomb still falling in background - eventually will lag
+				
 			
 			
 			var explosionCollision = {x:bomb.offsetLeft, y:bomb.offsetTop, width:128, height:80}
@@ -168,11 +170,9 @@ var x =0;
 						
 						player.className = 'character hit down';
 
-						// hitCheck = setInterval(function() {
-
+						
 						life();
 
-						// }, 1000);
 						
 						bomb.classList.remove('explosion');
 						i++
@@ -187,7 +187,7 @@ var x =0;
 
 
 			}
-
+			
 		}, 10)
 
 
@@ -236,21 +236,21 @@ function resetHealth() {
 	player.className = 'character stand down';
 	i = 0;
 }
-
+randomDropRate = Math.random() * (1000-100)+ 100;
 var bombTimer
 function clickStart() {
 
 	document.querySelector('.start').style.display = 'none';
 	document.querySelector('.gameOver').style.display = 'none';
 	
-	bombTimer = setInterval(spawnBombs, 1000);	
+	// spawnBombs();
+
+	bombTimer = setInterval(spawnBombs, randomDropRate);	
 	
 }
 
 function gameOver() {
-	clearInterval(bombTimer)
-	clearInterval(bombFall)
-	// clearInterval(hitCheck)
+	
 
 	player.className = 'character dead';
 

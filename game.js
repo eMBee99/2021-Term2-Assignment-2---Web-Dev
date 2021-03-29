@@ -106,15 +106,15 @@ function keydown(event) {
 		devBomb = true;
 	}
 }
-var levelUp;
+
 var scoreCounter = 0;
 var bombFall;
 var hitCheck;
-var i = 0;
-var limit = 10
-var x = 0;
-var boom =0;
-var counter = 1;
+var i = 0; //number of 'li' for the health orb things
+var limit = 10 //number of max bombs per level
+var x = 0; //number of bombs since level start
+var a = 0; //number of bombs since start
+var counter = 1; //a counter to count the level the player is on
 var bombTimer;
 var randomSpeed;
 
@@ -126,8 +126,9 @@ function spawnBombs() {
 	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
+	console.log("bomb number " + x)
+	console.log("total number of bombs " + a)
 	
-	// bomb = {speed: Math.random() * 7 + 1}
 	bomb.style.display = 'block';
 	randomLeft = Math.random() * (window.innerWidth - 60) + 30;
 	
@@ -187,7 +188,7 @@ function spawnBombs() {
 					
 					bomb.parentNode.removeChild(bomb);
 					scoreCounter++;
-					
+					console.log(scoreCounter + " points scored")
 					bomb.classList.remove('explosion');
 					
 				}
@@ -201,10 +202,10 @@ function spawnBombs() {
 			
 			clearInterval(bombFall);
 			clearInterval(bombTimer);
-			clearInterval(levelUp)
+			
 			
 			console.log("level " + counter)
-			console.log(x)
+		
 			showLevel();
 			
 			x = 0
@@ -212,14 +213,14 @@ function spawnBombs() {
 		
 			}
 		x++;
-
+a++;
 		
 }
 
 var healthList;
 
 function life() {
-	console.log(i)
+	console.log("lives orb " + i)
 	healthList = document.getElementsByTagName("li")[i]
 	
 	healthList.style.display = 'none';
@@ -227,7 +228,7 @@ function life() {
 	if (i == 2 ){
 		gameOver();
 		
-		clearInterval(levelUp)
+		
 		clearInterval(bombTimer)
 		clearInterval(bombFall)
 		
@@ -268,14 +269,20 @@ function reset() {
 
 function clickStart() {
 	randomSpeed = Math.random() * 4 + counter;
-	console.log(randomSpeed)
+	console.log("starting level "+ counter)
+	console.log("speed: " + randomSpeed)
 	document.querySelector('.start').style.display = 'none';
-	
-	randomDropRate = Math.random() * (1000-100)+ 100;
+	timer = counter*100
+	if (counter >=8){
+		timer = 800 
+	}
+	randomDropRate = Math.random() * (1000-(timer)-100)+ 100;
+	console.log("drop rate: " + randomDropRate)
+	console.log("limit is " + limit)
 	document.querySelector('.showLevel').innerHTML = "Level " + counter;
 	bombTimer = setInterval(spawnBombs, randomDropRate);	
 	
-}
+}	
 
 function gameOver() {
 	
@@ -301,10 +308,7 @@ function gameOver() {
 	scores.appendChild(newScore);
 
 	scoreCounter =0;
-	x = 0;
-	i = 0;
-	limit = 10;
-	counter = 1;
+	
 }
 
 

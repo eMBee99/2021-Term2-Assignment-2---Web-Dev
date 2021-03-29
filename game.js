@@ -111,34 +111,35 @@ var scoreCounter = 0;
 var bombFall;
 var hitCheck;
 var i = 0;
-
+var limit = 10
+var x = 0;
+var boom =0;
 function spawnBombs() {
-var x =0;
+
+
 	var player = document.getElementById('player');
 
 	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
-	
+	randomSpeed = Math.random() * 7 + 1;
+	// bomb = {speed: Math.random() * 7 + 1}
 	bomb.style.display = 'block';
-	randomNumber = Math.random() * (window.innerWidth - 60) + 30;
-	randomSpeed = Math.random() * 10 + 1;
+	randomLeft = Math.random() * (window.innerWidth - 60) + 30;
+	
+
+
 
 	if ( devBomb == true){
 		bomb.style.left = player.style.left
 	}else{
-	bomb.style.left = randomNumber + 'px';
+	bomb.style.left = randomLeft + 'px';
 	}
 
 	explosionY = (Math.random() * ((innerHeight - 30)-(innerHeight/5 * 4)) + (innerHeight/5 * 4));
 	
 		bombFall = setInterval(function() {
 		
-			var bombTop = bomb.offsetTop;
-			bombTop = bombTop + randomSpeed + 'px';
-			bomb.style.top = bombTop  ;
-			document.body.appendChild(bomb);
-
 			if (i == 3) {
 
 				bomb.parentNode.removeChild(bomb);
@@ -149,7 +150,12 @@ var x =0;
 				
 			}
 
-		
+			var bombTop = bomb.offsetTop;
+			bombTop = bombTop + 2 + 'px';
+			bomb.style.top = bombTop  ;
+
+			document.body.appendChild(bomb);
+			
 			
 		if (bomb.offsetTop >= explosionY) {
 			
@@ -158,8 +164,6 @@ var x =0;
 				bomb.style.display = 'block';
 				
 				
-			
-			
 			var explosionCollision = {x:bomb.offsetLeft, y:bomb.offsetTop, width:128, height:80}
 			var playerCollsion = {x:player.offsetLeft, y:player.offsetTop, width:32, height:64}
 
@@ -169,11 +173,9 @@ var x =0;
 					explosionCollision.y + explosionCollision.height > playerCollsion.y) {
 						
 						player.className = 'character hit down';
-
 						
 						life();
-
-						
+				
 						bomb.classList.remove('explosion');
 						i++
 						
@@ -181,16 +183,28 @@ var x =0;
 					
 					bomb.parentNode.removeChild(bomb);
 					scoreCounter++;
-					console.log(scoreCounter)
+					
 					bomb.classList.remove('explosion');
+					
 				}
-
 
 			}
 			
 		}, 10)
 
 
+		if (x==limit){
+			
+			clearInterval(bombFall);
+			clearInterval(bombTimer);
+			
+			showLevel();
+			
+			x = 0
+			limit = limit + 5;
+		
+			}
+		x++;
 }
 
 var healthList;
@@ -200,14 +214,13 @@ function life() {
 	healthList = document.getElementsByTagName("li")[i]
 	
 	healthList.style.display = 'none';
-	
 
 	if (i == 2 ){
 		gameOver();
 		
 		clearInterval(bombTimer)
 		clearInterval(bombFall)
-		// clearInterval(hitCheck)
+		
 	}
 
 		
@@ -227,7 +240,9 @@ function life() {
 	
 }
 
-function resetHealth() {
+function reset() {
+
+	document.querySelector('.gameOver').style.display = 'none';
 
 	for (var y=0;y<3;y++){
 		healthList = document.getElementsByTagName("li")[y]
@@ -235,23 +250,29 @@ function resetHealth() {
 	}
 	player.className = 'character stand down';
 	i = 0;
+	limit = 10;
+	counter = 1;
 }
-randomDropRate = Math.random() * (1000-100)+ 100;
-var bombTimer
+
+var counter = 2;
+var bombTimer;
 function clickStart() {
-
+	console.log('next level')
+	console.log('score '+ scoreCounter)
+	console.log('level '+ counter)
+	console.log('limit '+ limit)
+	console.log('x '+ x)
+	
 	document.querySelector('.start').style.display = 'none';
-	document.querySelector('.gameOver').style.display = 'none';
 	
-	// spawnBombs();
-
+	randomDropRate = Math.random() * (1000-500)+ 500;
+	
 	bombTimer = setInterval(spawnBombs, randomDropRate);	
-	
+	console.log("level " + counter)
 }
 
 function gameOver() {
 	
-
 	player.className = 'character dead';
 
 	document.querySelector('.gameOver').style.display = 'block';
@@ -274,17 +295,44 @@ function gameOver() {
 	scores.appendChild(newScore);
 
 	scoreCounter =0;
+	
 }
 
 
+function showLevel() {
+	
+	document.querySelector('.showLevel').style.display = 'block';
+
+	document.querySelector('.showLevel').innerHTML = "Level " + counter;
+counter++;
+
+
+
+	setInterval(nextLevel, 5000)
+
+
+}
+
+
+function nextLevel() {
+	if (document.querySelector('.gameOver').style.display == 'block' && document.querySelector('.showLevel').style.display == 'block'){
+		document.querySelector('.showLevel').style.display == 'none'
+		document.querySelector('.gameOver').style.display == 'block'
+	} else {
+		document.querySelector('.showLevel').style.display = 'none';
+	}
+	
+	clickStart();
+}
 
 function myLoadFunction() {
 	timeout = setInterval(move, 10);
 	document.addEventListener('keydown', keydown);
 	document.addEventListener('keyup', keyup);
 	document.querySelector('.start').addEventListener('click', clickStart);
+	document.querySelector('.gameOver').addEventListener('click', reset);
 	document.querySelector('.gameOver').addEventListener('click', clickStart);
-	document.querySelector('.gameOver').addEventListener('click', resetHealth);
+	
 	
 }
 

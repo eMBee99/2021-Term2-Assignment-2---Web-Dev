@@ -106,7 +106,7 @@ function keydown(event) {
 		devBomb = true;
 	}
 }
-
+var levelUp;
 var scoreCounter = 0;
 var bombFall;
 var hitCheck;
@@ -114,6 +114,10 @@ var i = 0;
 var limit = 10
 var x = 0;
 var boom =0;
+var counter = 1;
+var bombTimer;
+var randomSpeed;
+
 function spawnBombs() {
 
 
@@ -122,7 +126,7 @@ function spawnBombs() {
 	
 	const bomb = document.createElement('div');
 	bomb.className = 'bomb';
-	randomSpeed = Math.random() * 7 + 1;
+	
 	// bomb = {speed: Math.random() * 7 + 1}
 	bomb.style.display = 'block';
 	randomLeft = Math.random() * (window.innerWidth - 60) + 30;
@@ -151,7 +155,7 @@ function spawnBombs() {
 			}
 
 			var bombTop = bomb.offsetTop;
-			bombTop = bombTop + 2 + 'px';
+			bombTop = bombTop + randomSpeed + 'px';
 			bomb.style.top = bombTop  ;
 
 			document.body.appendChild(bomb);
@@ -197,7 +201,10 @@ function spawnBombs() {
 			
 			clearInterval(bombFall);
 			clearInterval(bombTimer);
+			clearInterval(levelUp)
 			
+			console.log("level " + counter)
+			console.log(x)
 			showLevel();
 			
 			x = 0
@@ -205,6 +212,8 @@ function spawnBombs() {
 		
 			}
 		x++;
+
+		
 }
 
 var healthList;
@@ -218,6 +227,7 @@ function life() {
 	if (i == 2 ){
 		gameOver();
 		
+		clearInterval(levelUp)
 		clearInterval(bombTimer)
 		clearInterval(bombFall)
 		
@@ -249,26 +259,22 @@ function reset() {
 		healthList.style.display = 'block';
 	}
 	player.className = 'character stand down';
+	x = 0;
 	i = 0;
 	limit = 10;
 	counter = 1;
 }
 
-var counter = 2;
-var bombTimer;
+
 function clickStart() {
-	console.log('next level')
-	console.log('score '+ scoreCounter)
-	console.log('level '+ counter)
-	console.log('limit '+ limit)
-	console.log('x '+ x)
-	
+	randomSpeed = Math.random() * 4 + counter;
+	console.log(randomSpeed)
 	document.querySelector('.start').style.display = 'none';
 	
-	randomDropRate = Math.random() * (1000-500)+ 500;
-	
+	randomDropRate = Math.random() * (1000-100)+ 100;
+	document.querySelector('.showLevel').innerHTML = "Level " + counter;
 	bombTimer = setInterval(spawnBombs, randomDropRate);	
-	console.log("level " + counter)
+	
 }
 
 function gameOver() {
@@ -295,35 +301,23 @@ function gameOver() {
 	scores.appendChild(newScore);
 
 	scoreCounter =0;
-	
+	x = 0;
+	i = 0;
+	limit = 10;
+	counter = 1;
 }
 
 
 function showLevel() {
 	
-	document.querySelector('.showLevel').style.display = 'block';
-
 	document.querySelector('.showLevel').innerHTML = "Level " + counter;
-counter++;
-
-
-
-	setInterval(nextLevel, 5000)
-
-
-}
-
-
-function nextLevel() {
-	if (document.querySelector('.gameOver').style.display == 'block' && document.querySelector('.showLevel').style.display == 'block'){
-		document.querySelector('.showLevel').style.display == 'none'
-		document.querySelector('.gameOver').style.display == 'block'
-	} else {
-		document.querySelector('.showLevel').style.display = 'none';
-	}
+	counter++;
 	
 	clickStart();
 }
+
+
+
 
 function myLoadFunction() {
 	timeout = setInterval(move, 10);

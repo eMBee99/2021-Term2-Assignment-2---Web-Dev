@@ -116,29 +116,29 @@ var x = 0; //number of bombs since level start
 var a = 0; //number of bombs since start
 var counter = 1; //a counter to count the level the player is on
 var bombTimer;
-var randomSpeed;
+
 
 function spawnBombs() {
 
-
 	var player = document.getElementById('player');
 
+	const bomb = {
+		div: document.createElement('div'),
+		speed: Math.random() * 4 + counter,
+	}
+	bomb.div.className = 'bomb';
+
+console.log(bomb.speed)
+	// console.log("bomb number " + x)
+	// console.log("total number of bombs " + a)
 	
-	const bomb = document.createElement('div');
-	bomb.className = 'bomb';
-	console.log("bomb number " + x)
-	console.log("total number of bombs " + a)
-	
-	bomb.style.display = 'block';
+	bomb.div.style.display = 'block';
 	randomLeft = Math.random() * (window.innerWidth - 60) + 30;
 	
-
-
-
 	if ( devBomb == true){
-		bomb.style.left = player.style.left
+		bomb.div.style.left = player.style.left
 	}else{
-	bomb.style.left = randomLeft + 'px';
+	bomb.div.style.left = randomLeft + 'px';
 	}
 
 	explosionY = (Math.random() * ((innerHeight - 30)-(innerHeight/5 * 4)) + (innerHeight/5 * 4));
@@ -147,29 +147,27 @@ function spawnBombs() {
 		
 			if (i == 3) {
 
-				bomb.parentNode.removeChild(bomb);
-				bomb.classList.remove('bomb');
-				bomb.classList.remove('explosion');
+				bomb.div.parentNode.removeChild(bomb);
+				bomb.div.classList.remove('bomb');
+				bomb.div.classList.remove('explosion');
 				clearInterval(bombTimer)
 				clearInterval(bombFall)
 				
 			}
 
-			var bombTop = bomb.offsetTop;
-			bombTop = bombTop + randomSpeed + 'px';
-			bomb.style.top = bombTop  ;
+			var bombTop = bomb.div.offsetTop;
+			bombTop = bombTop + bomb.speed + 'px';
+			bomb.div.style.top = bombTop  ;
 
-			document.body.appendChild(bomb);
+			document.body.appendChild(bomb.div);
 			
+		if (bomb.div.offsetTop >= explosionY) {
 			
-		if (bomb.offsetTop >= explosionY) {
-			
-				bomb.classList.remove('bomb')
-				bomb.className = 'explosion'
-				bomb.style.display = 'block';
+				bomb.div.classList.remove('bomb')
+				bomb.div.className = 'explosion'
+				bomb.div.style.display = 'block';
 				
-				
-			var explosionCollision = {x:bomb.offsetLeft, y:bomb.offsetTop, width:128, height:80}
+			var explosionCollision = {x:bomb.div.offsetLeft, y:bomb.div.offsetTop, width:128, height:80}
 			var playerCollsion = {x:player.offsetLeft, y:player.offsetTop, width:32, height:64}
 
 				if (explosionCollision.x < playerCollsion.x + playerCollsion.width &&
@@ -181,15 +179,15 @@ function spawnBombs() {
 						
 						life();
 				
-						bomb.classList.remove('explosion');
+						bomb.div.classList.remove('explosion');
 						i++
 						
-				} else if (bomb.offsetTop >= innerHeight) {
+				} else if (bomb.div.offsetTop >= innerHeight) {
 					
-					bomb.parentNode.removeChild(bomb);
+					bomb.div.parentNode.removeChild(bomb.div);
 					scoreCounter++;
 					console.log(scoreCounter + " points scored")
-					bomb.classList.remove('explosion');
+					bomb.div.classList.remove('explosion');
 					
 				}
 
@@ -197,12 +195,10 @@ function spawnBombs() {
 			
 		}, 10)
 
-
 		if (x==limit){
 			
 			clearInterval(bombFall);
 			clearInterval(bombTimer);
-			
 			
 			console.log("level " + counter)
 		
@@ -211,8 +207,8 @@ function spawnBombs() {
 			x = 0
 			limit = limit + 5;
 		
-			}
-		x++;
+		}
+	x++;
 a++;
 		
 }
@@ -266,11 +262,10 @@ function reset() {
 	counter = 1;
 }
 
-
 function clickStart() {
-	randomSpeed = Math.random() * 4 + counter;
+	// randomSpeed = Math.random() * 4 + counter;
 	console.log("starting level "+ counter)
-	console.log("speed: " + randomSpeed)
+	
 	document.querySelector('.start').style.display = 'none';
 	timer = counter*100
 	if (counter >=8){
@@ -311,7 +306,6 @@ function gameOver() {
 	
 }
 
-
 function showLevel() {
 	
 	document.querySelector('.showLevel').innerHTML = "Level " + counter;
@@ -320,9 +314,6 @@ function showLevel() {
 	clickStart();
 }
 
-
-
-
 function myLoadFunction() {
 	timeout = setInterval(move, 10);
 	document.addEventListener('keydown', keydown);
@@ -330,7 +321,6 @@ function myLoadFunction() {
 	document.querySelector('.start').addEventListener('click', clickStart);
 	document.querySelector('.gameOver').addEventListener('click', reset);
 	document.querySelector('.gameOver').addEventListener('click', clickStart);
-	
 	
 }
 

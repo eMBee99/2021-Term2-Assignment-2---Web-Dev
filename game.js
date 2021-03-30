@@ -129,14 +129,15 @@ function spawnBombs() {
 	bomb.div.className = 'bomb';
 
 console.log(bomb.speed)
-	// console.log("bomb number " + x)
-	// console.log("total number of bombs " + a)
+	console.log("bomb number " + x)
+	console.log("total number of bombs " + a)
 	
 	bomb.div.style.display = 'block';
 	randomLeft = Math.random() * (window.innerWidth - 60) + 30;
 	
 	if ( devBomb == true){
 		bomb.div.style.left = player.style.left
+		bomb.speed = 6;
 	}else{
 	bomb.div.style.left = randomLeft + 'px';
 	}
@@ -147,7 +148,7 @@ console.log(bomb.speed)
 		
 			if (i == 3) {
 
-				bomb.div.parentNode.removeChild(bomb);
+				bomb.div.parentNode.removeChild(bomb.div);
 				bomb.div.classList.remove('bomb');
 				bomb.div.classList.remove('explosion');
 				clearInterval(bombTimer)
@@ -258,6 +259,7 @@ function reset() {
 	player.className = 'character stand down';
 	x = 0;
 	i = 0;
+	a = 0;
 	limit = 10;
 	counter = 1;
 }
@@ -311,7 +313,7 @@ function showLevel() {
 	document.querySelector('.showLevel').innerHTML = "Level " + counter;
 	counter++;
 	
-	clickStart();
+	setTimeout(clickStart, 3000)
 }
 
 function myLoadFunction() {
